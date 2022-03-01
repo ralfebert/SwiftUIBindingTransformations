@@ -2,10 +2,10 @@ import SwiftUI
 
 /// The fallback operator '??' adapted to SwiftUI bindings: return the original value if the given Binding has a wrappedValue, otherwise the fallback value will be used.
 /// see also: https://stackoverflow.com/questions/57021722/swiftui-optional-textfield
-public func ?? <T>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
+public func ?? <T: Equatable>(lhs: Binding<T?>, rhs: T) -> Binding<T> {
     Binding(
         get: { lhs.wrappedValue ?? rhs },
-        set: { lhs.wrappedValue = $0 }
+        set: { lhs.wrappedValue = ($0 == rhs) ? .none : $0 }
     )
 }
 
